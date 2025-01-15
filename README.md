@@ -1,7 +1,5 @@
-# robot_ocr
+# Enhanced OCR Application with Robot Frameowrk wrapper
 ----
-
-## Enhanced OCR Application in Robot Test Framework
 
 ### 1. Broad Area of Work
 The project is aimed at the areas of test automation, image processing and machine
