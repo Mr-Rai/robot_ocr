@@ -33,6 +33,21 @@ import matplotlib.pyplot as plt
 SAVED_MODEL_PATH = '..\\models\\frozen_east_text_detection.pb'
 
 def post_process(orig, scores, geometry, confThreshold=0.5, nmsThreshold=0.4, rW=1, rH=1):
+    """
+    Post-processes the output of the EAST text detector model to suppress weak, overlapping bounding boxes.
+    
+    Args:
+        orig (numpy.ndarray): The original image.
+        scores (numpy.ndarray): The scores from the EAST detector.
+        geometry (numpy.ndarray): The geometry from the EAST detector.
+        confThreshold (float): Confidence threshold to filter weak detections.
+        nmsThreshold (float): Non-maxima suppression threshold.
+        rW (float): Width ratio.
+        rH (float): Height ratio.
+
+    Returns:
+        masked_image (numpy.ndarray): The resulting image with bounding boxes applied.
+    """
     (rects, confidences) = decode_predictions(scores, geometry, confThreshold)
 
     # Apply non-maxima suppression to suppress weak, overlapping bounding boxes
@@ -60,6 +75,17 @@ def post_process(orig, scores, geometry, confThreshold=0.5, nmsThreshold=0.4, rW
     return masked_image
 
 def decode_predictions(scores, geometry, confThreshold=0.5):
+    """
+    Decodes the predictions from the EAST text detector model.
+
+    Args:
+        scores (numpy.ndarray): The scores from the EAST detector.
+        geometry (numpy.ndarray): The geometry from the EAST detector.
+        confThreshold (float): Confidence threshold to filter weak detections.
+
+    Returns:
+        tuple: A tuple containing the bounding boxes and associated confidences.
+    """
     # Grab the number of rows and columns from the scores volume, then
     # initialize our set of bounding box rectangles and corresponding
     # confidence scores
@@ -118,6 +144,15 @@ def decode_predictions(scores, geometry, confThreshold=0.5):
 
 ##CNN Model for applying masking around the text
 def detect_text_east(image_path):
+    """
+    Detects text in an image using the EAST text detector model.
+
+    Args:
+        image_path (str): Path to the image file.
+
+    Returns:
+        result_image (numpy.ndarray): The resulting image with text bounding boxes applied.
+    """
     # Load image
     image = cv2.imread(image_path)
     orig = image.copy()
@@ -156,8 +191,13 @@ def detect_text_east(image_path):
     return result_image
 
 def preprocess_image(image_path):
-    """Loads image from path and preprocesses to make it model ready
-        :image_path: Path to the image file
+    """Loads image from path and preprocesses to make it model ready.
+    
+    Args:
+        image_path (str): Path to the image file.
+
+    Returns:
+        tf.Tensor: Preprocessed image tensor.
     """
     hr_image = tf.image.decode_image(tf.io.read_file(image_path))
     # If PNG, remove the alpha channel. The model only supports
@@ -172,8 +212,10 @@ def preprocess_image(image_path):
 def save_image(image, filename):
     """
     Saves unscaled Tensor Images.
-    :image: 3D image tensor. [height, width, channels]
-    :filename: Name of the file to save.
+
+    Args:
+        image (tf.Tensor): 3D image tensor. [height, width, channels]
+        filename (str): Name of the file to save.
     """
     if not isinstance(image, Image.Image):
         image = tf.clip_by_value(image, 0, 255)
@@ -182,9 +224,12 @@ def save_image(image, filename):
 
 %matplotlib inline
 def plot_image(image, title=""):
-    """Plots images from image tensors.
-      :image: 3D image tensor. [height, width, channels].
-      :title: Title to display in the plot.
+    """
+    Plots images from image tensors.
+
+    Args:
+        image (tf.Tensor): 3D image tensor. [height, width, channels].
+        title (str): Title to display in the plot.
     """
     image = np.asarray(image)
     image = tf.clip_by_value(image, 0, 255)
@@ -287,4 +332,3 @@ for image_file_name in os.listdir(folder_path):
     print('===================================')
 
     tesseract_dict[image_name] = words
-
