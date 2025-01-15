@@ -1,4 +1,4 @@
-# Enhanced OCR Application with Robot Frameowrk wrapper
+# Enhanced OCR Application with Robot Framework wrapper
 ----
 
 ### 1. Broad Area of Work
