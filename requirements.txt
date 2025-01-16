@@ -1,8 +1,8 @@
-pandas==2.2.3
-numpy==2.2.1
-matplotlib==3.10.0
-opencv-python-headless==4.10.0.84
-pillow==11.1.0
-pytesseract==0.3.13
+pandas==2.0.3
+numpy==1.25.0
+matplotlib==3.7.3
+opencv-python-headless==4.8.0.76
+pillow==9.5.0
+pytesseract==0.3.10
 imutils==0.5.4
-tensorflow==2.18.0
+tensorflow==2.14.0
