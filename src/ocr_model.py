@@ -30,7 +30,7 @@ import matplotlib.pyplot as plt
 
 #TODO: Use locally downloaded model
 # SAVED_MODEL_PATH = 'https://tfhub.dev/captain-pool/esrgan-tf2/1'
-SAVED_MODEL_PATH = '..\\models\\frozen_east_text_detection.pb'
+SAVED_MODEL_PATH = 'models\\frozen_east_text_detection.pb'
 
 def post_process(orig, scores, geometry, confThreshold=0.5, nmsThreshold=0.4, rW=1, rH=1):
     """
@@ -222,7 +222,7 @@ def save_image(image, filename):
         image = Image.fromarray(tf.cast(image, tf.uint8).numpy())
     image.save(filename)
 
-%matplotlib inline
+# %matplotlib inline
 def plot_image(image, title=""):
     """
     Plots images from image tensors.
@@ -238,16 +238,21 @@ def plot_image(image, title=""):
     plt.axis("off")
     plt.title(title)
 
-model = hub.load(SAVED_MODEL_PATH)
-folder_path = '/content/test_images/test_images/'
-
-os.mkdir('/content/output/')
+model = tf.saved_model.load(SAVED_MODEL_PATH)
+# model = hub.load(SAVED_MODEL_PATH)
+folder_path = 'images\\test_images'
+# os.mkdir('/images/output/')
 pipeline_dict = {}
 os.listdir(folder_path)
 
 for image_file_name in os.listdir(folder_path):
     image_name = image_file_name.split('.')[0]
     image_path = folder_path + image_file_name
+
+    print(f'Image Name: {image_name}')
+
+    import sys
+    sys.exit('BYE BYE !!')
 
     if image_name is None or image_name == '':
       continue
@@ -257,11 +262,11 @@ for image_file_name in os.listdir(folder_path):
 
     result_image = detect_text_east(image_path)
     #display_image(result_image)
-    output_path = f'/content/output/{image_name}_stage_1.jpg'
+    output_path = f'/images/output/{image_name}_stage_1.jpg'
     status = cv2.imwrite(output_path, result_image)
 
     ## SUPER RESOLUTION
-    IMAGE_PATH = f'/content/output/{image_name}_stage_1.jpg'
+    IMAGE_PATH = f'/images/output/{image_name}_stage_1.jpg'
     hr_image = preprocess_image(IMAGE_PATH)
     #plot_image(tf.squeeze(hr_image), title="Original Image")
 
@@ -269,11 +274,11 @@ for image_file_name in os.listdir(folder_path):
     fake_image = tf.squeeze(fake_image)
 
     #plot_image(tf.squeeze(fake_image), title="Super Resolution")
-    save_image(tf.squeeze(fake_image), filename=f"/content/output/{image_name}_stage_2.jpg")
+    save_image(tf.squeeze(fake_image), filename=f"/images/output/{image_name}_stage_2.jpg")
 
     ##OCR
 
-    masked_image_path = f'/content/output/{image_name}_stage_2.jpg'
+    masked_image_path = f'/images/output/{image_name}_stage_2.jpg'
     #masked_image_path = '/content/test_images/00bedd5c2fbf2dff.jpg'
 
     # Read the image using OpenCV (PyTesseract also works with PIL images)
@@ -304,8 +309,6 @@ for image_file_name in os.listdir(folder_path):
 
     image_name = image_file_name.split('.')[0]
     image_path = folder_path + image_file_name
-
-    print(f'Image Name: {image_name}')
 
     if image_name is None or image_name == '':
       continue
