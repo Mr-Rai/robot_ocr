@@ -35,7 +35,7 @@ SAVED_MODEL_PATH = 'models\\frozen_east_text_detection.pb'
 def post_process(orig, scores, geometry, confThreshold=0.5, nmsThreshold=0.4, rW=1, rH=1):
     """
     Post-processes the output of the EAST text detector model to suppress weak, overlapping bounding boxes.
-    
+
     Args:
         orig (numpy.ndarray): The original image.
         scores (numpy.ndarray): The scores from the EAST detector.
@@ -238,7 +238,7 @@ def plot_image(image, title=""):
     plt.axis("off")
     plt.title(title)
 
-model = tf.saved_model.load(SAVED_MODEL_PATH)
+model = hub.load(SAVED_MODEL_PATH)
 # model = hub.load(SAVED_MODEL_PATH)
 folder_path = 'images\\test_images'
 # os.mkdir('/images/output/')
@@ -248,11 +248,6 @@ os.listdir(folder_path)
 for image_file_name in os.listdir(folder_path):
     image_name = image_file_name.split('.')[0]
     image_path = folder_path + image_file_name
-
-    print(f'Image Name: {image_name}')
-
-    import sys
-    sys.exit('BYE BYE !!')
 
     if image_name is None or image_name == '':
       continue
