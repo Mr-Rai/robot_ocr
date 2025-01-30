@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.1.1 (Python 3.11.0 on win32)" generated="2025-01-30T13:59:01.030216" rpa="true" schemaversion="5">
+<suite id="s1" name="Unit Test" source="C:\Users\shurai\Downloads\CODES\robot_ocr\output\..\unit_test\unit_test.robot">
+<test id="s1-t1" name="Unit Test" line="9">
+<kw name="Read Text From Image" owner="utils">
+<msg time="2025-01-30T13:59:02.736871" level="INFO">${text} = </msg>
+<msg time="2025-01-30T13:59:02.737869" level="INFO">${enhanced_image_path} = images/enhanced_images/sample1.jpg</msg>
+<var>${text}</var>
+<var>${enhanced_image_path}</var>
+<arg>image_path=${img_path}${img_name}</arg>
+<doc>Read text from an image file</doc>
+<status status="PASS" start="2025-01-30T13:59:02.336777" elapsed="0.401092"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>\nText: ${text}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-01-30T13:59:02.737869" elapsed="0.001001"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>enhanced_image_path: ${enhanced_image_path}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-01-30T13:59:02.739890" elapsed="0.000988"/>
+</kw>
+<kw name="Log Image" owner="utils">
+<msg time="2025-01-30T13:59:02.741862" level="FAIL">FileNotFoundError: [Errno 2] No such file or directory: 'images/enhanced_images/sample1.jpg'</msg>
+<arg>img_path=${enhanced_image_path}</arg>
+<status status="FAIL" start="2025-01-30T13:59:02.740878" elapsed="0.001981">FileNotFoundError: [Errno 2] No such file or directory: 'images/enhanced_images/sample1.jpg'</status>
+</kw>
+<doc>Unit Test For OCR Model</doc>
+<status status="FAIL" start="2025-01-30T13:59:02.335768" elapsed="0.407091">FileNotFoundError: [Errno 2] No such file or directory: 'images/enhanced_images/sample1.jpg'</status>
+</test>
+<status status="FAIL" start="2025-01-30T13:59:01.036201" elapsed="1.708651"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tasks</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="Unit Test">Unit Test</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
