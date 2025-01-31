@@ -4,11 +4,13 @@ import base64
 import pandas as pd
 import numpy as np
 import pytesseract
+import json
 from robot.libraries.BuiltIn import BuiltIn
 from robot.api.deco import keyword
 
-CROPPED_IMG_PATH = 'images/cropped_images/'
-ENHANCED_IMG_PATH = 'images/enhanced_images/'
+CROPPED_IMG_PATH = '../images/cropped_images/'
+ENHANCED_IMG_PATH = '../images/enhanced_images/'
+COORDINATE_CONFIG_PATH = '../config/coordinates.json'
 
 class utils:
     def __init__(self):
@@ -21,7 +23,7 @@ class utils:
                 continue
 
     def log_html_table(self, list_data):
-        df = pd.DataFrame(list_data, columns=['image_name', 'image', 'cropped_image', 'enhanced_image'])
+        df = pd.DataFrame(list_data, columns=list_data[0])
 
         # Convert DataFrame to HTML
         html_table = df.to_html(escape=False)
@@ -67,16 +69,31 @@ class utils:
         cv2.imwrite(ENHANCED_IMG_PATH+img_name, subimage)
         return text, ENHANCED_IMG_PATH+img_name
 
-    def crop_image_region(self, image_path, x1, y1, x2, y2, region_name):
-        img_name = image_path.split('\\')[-1]
+    def crop_image_region(self, image_path, region_name=None, x1=0, y1=0, x2=0, y2=0):
+        if x1 == 0 and x2 == 0 and y1 == 0 and y2 == 0 and region_name is None:
+            return image_path
+        if region_name:
+            with open(COORDINATE_CONFIG_PATH, 'r') as file:
+                region_coordinate_dict = json.load(file)
+                BuiltIn().log_to_console('INFO', f'region_coordinate_dict: {region_coordinate_dict}')
+            region_coordinate_dict = region_coordinate_dict['ROI'][region_name]
+            x1 = region_coordinate_dict['x1']
+            y1 = region_coordinate_dict['y1']
+            x2 = region_coordinate_dict['x2']
+            y2 = region_coordinate_dict['y2']
+        if '\\' in image_path:
+            img_name = image_path.split('\\')[-1]
+        else:
+            img_name = image_path.split('/')[-1]
         image_file = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
         x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
         cropped_image_file = image_file[y1:y2, x1:x2] 
         cv2.imwrite(f'{CROPPED_IMG_PATH}{region_name}_{img_name}', cropped_image_file)
         return CROPPED_IMG_PATH+region_name+'_'+img_name
 
-    def log_image(self, img_path):
+    def log_image(self, img_path, width=500):
         with open(img_path, 'rb') as image_file:
             b64_img_str = base64.b64encode(image_file.read()).decode('utf-8')
-        img_html = f"<img src='data:image/png;base64, {str(b64_img_str)}' width='500px' alt='Image Unavailable'/>"
+        img_html = f"<img src='data:image/png;base64, {str(b64_img_str)}' width='{int(width)}px' alt='Image Unavailable'/>"
         BuiltIn().log(img_html, html=True)
+        return  img_html
