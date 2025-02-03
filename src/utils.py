@@ -51,7 +51,6 @@ class utils:
 
     def read_text_from_image(self, image_path):
         """Read text from an image file"""
-        BuiltIn.log_to_console('INFO', f'\nimage_path: {image_path}')
         subimage = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
         height, _= subimage.shape
         scale_factor = 90 / int(height)
@@ -75,7 +74,6 @@ class utils:
         if region_name:
             with open(COORDINATE_CONFIG_PATH, 'r') as file:
                 region_coordinate_dict = json.load(file)
-                BuiltIn().log_to_console('INFO', f'region_coordinate_dict: {region_coordinate_dict}')
             region_coordinate_dict = region_coordinate_dict['ROI'][region_name]
             x1 = region_coordinate_dict['x1']
             y1 = region_coordinate_dict['y1']
