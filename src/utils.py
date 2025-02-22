@@ -12,6 +12,9 @@ CROPPED_IMG_PATH = '../images/cropped_images/'
 ENHANCED_IMG_PATH = '../images/enhanced_images/'
 COORDINATE_CONFIG_PATH = '../config/coordinates.json'
 
+[os.mkdir(dir) for dir in [
+    CROPPED_IMG_PATH, ENHANCED_IMG_PATH, COORDINATE_CONFIG_PATH] if not os.path.exists(dir)]
+
 class utils:
     def __init__(self):
         # Create dir if not present
@@ -30,7 +33,6 @@ class utils:
 
         with open("image_comparison.html", "w") as f:
             f.write(html_table)
-
 
     def enhance_image(self, img):
         # Apply thresholding to binarize the image
@@ -73,12 +75,9 @@ class utils:
             return image_path
         if region_name:
             with open(COORDINATE_CONFIG_PATH, 'r') as file:
-                region_coordinate_dict = json.load(file)
-            region_coordinate_dict = region_coordinate_dict['ROI'][region_name]
-            x1 = region_coordinate_dict['x1']
-            y1 = region_coordinate_dict['y1']
-            x2 = region_coordinate_dict['x2']
-            y2 = region_coordinate_dict['y2']
+                region_data = json.load(file)
+            region_data = region_data['ROI'][region_name]
+            x1, y1, x2, y2 = region_data['x1'], region_data['y1'], region_data['x2'], region_data['y2']
         if '\\' in image_path:
             img_name = image_path.split('\\')[-1]
         else:
