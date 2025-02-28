@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.1.1 (Python 3.11.0 on win32)" generated="2025-02-28T21:17:57.986544" rpa="true" schemaversion="5">
+<suite id="s1" name="Unit Test Train" source="C:\BitsPilani\dissertation\paddle_ocr\unit_test\unit_test_train.robot">
+<test id="s1-t1" name="Unit Test" line="5">
+<kw name="Fine Tune Model" owner="main">
+<msg time="2025-02-28T21:18:01.989461" level="INFO">Dataset prepared from data/images/</msg>
+<msg time="2025-02-28T21:18:01.989461" level="FAIL">AttributeError: module 'paddleocr.paddleocr' has no attribute 'train'</msg>
+<status status="FAIL" start="2025-02-28T21:18:01.989461" elapsed="0.027687">AttributeError: module 'paddleocr.paddleocr' has no attribute 'train'</status>
+</kw>
+<doc>Unit Test For Fine Tuning Model</doc>
+<status status="FAIL" start="2025-02-28T21:18:01.987122" elapsed="0.030026">AttributeError: module 'paddleocr.paddleocr' has no attribute 'train'</status>
+</test>
+<status status="FAIL" start="2025-02-28T21:17:57.989947" elapsed="4.028582"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tasks</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="Unit Test Train">Unit Test Train</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
