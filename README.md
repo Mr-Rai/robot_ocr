@@ -1,12 +1,13 @@
 # Enhanced OCR Application with Robot Framework wrapper
-----
 
-### 1. Broad Area of Work
+### 1. What is it about
 The project is aimed at the areas of test automation, image processing and machine
 learning. It seeks to improve the Optical Character Recognition (OCR) technology in the
 Robot Framework with a view to advancing the automation of industrial testing tasks. The
 focus is on solving the problems of noisy text, font and language diversity, and the
 performance of the system in real time conditions.
+
+-------
 
 ### 2. Objectives
 - Enhance existing OCR systems that are capable of working on noisy, multilingual
@@ -20,22 +21,103 @@ recognition and verification of text during automated testing.
 - Encourage the community to collaborate by releasing the tool on GitHub with
 appropriate descriptions, manuals, and examples.
 
-### 3. Scope of Work
-- **Problem Identification:** A thorough reassessment of current OCR systems in use and
-formulation of models for their enhancement about dynamic text input.
-- **Solution Development:** Constructing a new OCR system based on more sophisticated
-machine learning models including CNNs and RNNs for improved performance in multitesting
-environments.
-- **Integration:** Arrange the OCR system as a Robot Framework library, with relevant tools
-such as architecture for real-time monitoring and pre-processing.
-- **Global Accessibility:** Upload the library to GitHub to enable developers and testers from
-different countries and able to foster cross-industry adaptation in manufacturing, retail,
-software QA, and many others.
-- **Documentation and Demonstration:** Do research study with examples of documents, real
-or fictitious test cases, and tutorials on how to use the tool so that it can be easily
-understood and adopted.
-- **Community Contribution:** Crowd source collaboration from the global automation
-community to ensure perpetual enhancement of the output.
+-------
+## The project has two main functionalities:
+- **Text Recognition**: Recognize text from images using a pre-trained or fine-tuned model.
+- **Fine-Tuning**: Allow users to fine-tune the model on their custom dataset.
 
--------------
-Python 3.11
+--------
+
+### Directory Structure
+```
+ocr_project/
+│
+├── data/                   # Folder for custom dataset
+│   ├── images/             # Folder for training images
+│   ├── labels/             # Folder for label files (e.g., image1.txt, image2.txt)
+│   └── train.txt           # File mapping images to labels (e.g., image1.jpg\tHello)
+│
+├── models/                 # Folder to store pre-trained and fine-tuned models
+│   ├── pretrained/         # Pre-trained models
+│   └── fine_tuned/         # Fine-tuned models
+│
+├── utils/                  # Utility functions
+│   └── dataset_utils.py    # Functions for dataset preparation
+│
+├── ocr.py                  # Main OCR class for text recognition
+├── finetune.py             # Class for fine-tuning the model
+└── main.py                 # Main script to run the project
+```
+--------
+
+### Code Implementation
+1. **ocr.py** (Text Recognition Class): This class will handle loading the model and recognizing text from images.
+2. **finetune.py** (Fine-Tuning Class): This class will handle fine-tuning the model on a custom dataset.
+3. **main.py** (Main Script): This script will provide a user-friendly interface to recognize text or fine-tune the model.
+----------------------------------------
+
+## User Guide: How to Create Training Data
+1. **Dataset Structure**
+    - Create a folder named data/ in your project directory.
+    - Inside data/, create two subfolders:
+    - images/: Store all training images (e.g., image1.jpg, image2.jpg).
+    - labels/: Store corresponding label files (e.g., image1.txt, image2.txt).
+
+2. **Label Files**
+    - For each image, create a .txt file with the same name as the image.
+    - The .txt file should contain the ground truth text for the image.
+    - Example:
+        - image1.jpg → image1.txt (content: Hello World)
+        - image2.jpg → image2.txt (content: OCR is fun)
+
+3. **Training Data File (train.txt)**
+    - Create a file named train.txt in the data/ folder.
+    - Each line in train.txt should map an image to its label file.
+    - Format:
+```
+data/images/image1.jpg	data/labels/image1.txt
+data/images/image2.jpg	data/labels/image2.txt
+```
+
+4. **Example Dataset**
+```
+data/
+├── images/
+│   ├── image1.jpg
+│   ├── image2.jpg
+├── labels/
+│   ├── image1.txt
+│   ├── image2.txt
+└── train.txt
+```
+--------------
+## How to Use the Project
+
+1. **Recognize Text**
+```
+from main import OCRProject
+
+# Initialize the OCR project
+ocr_project = OCRProject()
+
+# Recognize text from an image (uses fine-tuned model by default)
+ocr_project.recognize_text(image_path="data/images/test_image.jpg")
+```
+
+2. **Fine-Tune the Model**
+```
+from main import OCRProject
+
+# Initialize the OCR project
+ocr_project = OCRProject()
+
+# Fine-tune the model (uses default paths)
+ocr_project.fine_tune_model()
+```
+
+3. **How to Use the YAML File**: Place the YAML File:
+   - Modify Paths in YAML:
+   - Update the pretrained_model path to point to your downloaded pre-trained model.
+   - Update data_dir and label_file_list if your dataset is in a different location.
+   - Use in Fine-Tuning: The fine_tune_model method in main.py will use this YAML file by default.
+

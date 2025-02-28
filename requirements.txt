@@ -1,10 +1,7 @@
-robotframework==7.1.1
-pandas==2.0.3
-numpy==1.25.0
-matplotlib==3.7.3
-opencv-python-headless==4.8.0.76
-pillow==9.5.0
-pytesseract==0.3.10
-imutils==0.5.4
-tensorflow==2.14.0
-tensorflow-hub==0.16.0
+numpy>=1.21,<2.0  # Ensure numpy is compatible with both paddlepaddle and paddleocr
+paddlepaddle>=2.4.0  # Use a stable version of paddlepaddle
+paddleocr>=2.6.0  # Use a stable version of paddleocr
+opencv-python>=4.5.0  # Required for image processing
+shapely>=1.8.0  # Required for geometry operations
+pyyaml>=5.0  # Required for configuration files
+scipy>=1.7.0  # Required for scientific computing
