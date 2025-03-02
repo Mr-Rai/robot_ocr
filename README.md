@@ -30,23 +30,39 @@ appropriate descriptions, manuals, and examples.
 
 ### Directory Structure
 ```
-ocr_project/
+robot_ocr/
 │
-├── data/                   # Folder for custom dataset
-│   ├── images/             # Folder for training images
-│   ├── labels/             # Folder for label files (e.g., image1.txt, image2.txt)
-│   └── train.txt           # File mapping images to labels (e.g., image1.jpg\tHello)
+├── configs/
+|   ├── coordinates.json        # Coordinate file for storing region of interest
+|   ├── rec/                    # YML file for configuration of model training
+|       ├── rec_mv3_none_bilstm_ctc.yml
+|
+├── data/                       # Folder for custom dataset
+│   ├── images/                 # Folder for training images
+│   ├── labels/                 # Folder for label files (e.g., image1.txt, image2.txt)
+│   └── train.txt               # File mapping images to labels (e.g., image1.jpg\tHello)
 │
-├── models/                 # Folder to store pre-trained and fine-tuned models
-│   ├── pretrained/         # Pre-trained models
-│   └── fine_tuned/         # Fine-tuned models
+├── models/                     # Folder to store pre-trained and fine-tuned models
+│   ├── pretrained/             # Pre-trained models
+│   └── fine_tuned/             # Fine-tuned models
 │
-├── utils/                  # Utility functions
-│   └── dataset_utils.py    # Functions for dataset preparation
+├── src/                        # Python functions
+│   └── finetune.py             # Python code for handling model finetuning
+│   └── main.py                 # Main function to interact with robot
+│   └── ocr.py                  # Python code for recognizing text
+│   └── utils.py                # Utils for robot keywords
 │
-├── ocr.py                  # Main OCR class for text recognition
-├── finetune.py             # Class for fine-tuning the model
-└── main.py                 # Main script to run the project
+├── test_images/                # Folder for test images
+│   └── cropped_images/         # Automatically created by robot keyword
+│   └── enhanced_images/        # Automatically created by robot keyword
+|
+├── unit_test/                  # Folder for unit test files
+│   └── unit_test_ocr.robot     # Robot unit test for text Recognition
+│   └── unit_test_train.robot   # Robot unit test for finetuning model
+|
+├── ReadMe.md                   # Read me file
+├── requriements.txt            # Requirements file for python dependencies
+|
 ```
 --------
 
