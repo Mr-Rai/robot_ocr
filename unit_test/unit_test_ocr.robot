@@ -32,11 +32,11 @@ Unit Test
     [Documentation]    Unit Test For OCR Model
     # Create Image Table
     ${table_data}    Collections.Convert To List    ${EMPTY}
-    @{table_header}    Set Variable    OCropped Image    Tesseract Output    Paddle Output
+    @{table_header}    Set Variable    Image Name    Cropped Image    Tesseract Output    Paddle Output
     Collections.Append To List    ${table_data}    ${table_header}
 
-    FOR    ${region}   IN    region_1    region_2    region_3    region_4    region_5
-    ...    region_6    region_7    region_8    region_9
+    # For Image 2
+    FOR    ${region}   IN    region_1    region_2    region_4    region_6    region_8
         ${cropped_image_path}=    utils.Crop Image Region    ${img_path2}   ${region}
         # ${cropped_image_path}=    utils.Enhance Image    ${cropped_image_path}
 
@@ -45,7 +45,23 @@ Unit Test
 
         ${cropped_img_html}=    utils.Log Image    img_path=${cropped_image_path}    width=200
 
-        @{table_img_row}    Set Variable    ${cropped_img_html}    ${tes_ocr_op}    ${paddle_ocr_op}
+        @{table_img_row}    Set Variable    ${img_path2}    ${cropped_img_html}    ${tes_ocr_op}    ${paddle_ocr_op}
         Collections.Append To List    ${table_data}    ${table_img_row}
     END
+
+    # For all low quality images
+    ${low_quality_images}=    OperatingSystem.List Files In Directory    ../test_images/    lq_*.png
+    FOR    ${img_name}    IN    @{low_quality_images}
+        ${cropped_image_path}=    utils.Crop Image Region    ../test_images/${img_name}
+        # ${cropped_image_path}=    utils.Enhance Image    ${cropped_image_path}
+
+        ${tes_ocr_op}=    utils.Read Text From Image    ${cropped_image_path}
+        ${paddle_ocr_op}=    main.Recognize Text    ${cropped_image_path}    ${pre_trained_model}
+
+        ${cropped_img_html}=    utils.Log Image    img_path=${cropped_image_path}    width=200
+
+        @{table_img_row}    Set Variable    ${img_name}    ${cropped_img_html}    ${tes_ocr_op}    ${paddle_ocr_op}
+        Collections.Append To List    ${table_data}    ${table_img_row}
+    END
+
     Add Table To Report    @{table_data}

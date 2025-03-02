@@ -42,8 +42,8 @@ class utils:
         # Invert the image to make the text black and background white
         inverted = cv2.bitwise_not(binary)
 
-        kernel = np.ones((3,3),np.uint8)
-        img = cv2.erode(inverted,kernel,iterations = 1)
+        # kernel = np.ones((3,3),np.uint8)
+        # img = cv2.erode(inverted,kernel,iterations = 1)
         # Save enhanced images
         if '\\' in img_path:
             img_name = img_path.split('\\')[-1]
@@ -51,54 +51,6 @@ class utils:
             img_name = img_path.split('/')[-1]
         cv2.imwrite(ENHANCED_IMG_PATH+img_name, img)
         return ENHANCED_IMG_PATH+img_name
-
-    # def enhance_image(self, image_path):
-    #     """Enhance an image for OCR (brightness, contrast, noise reduction, sharpening)."""
-    #     # Read the image
-    #     image = cv2.imread(image_path)
-
-    #     # Convert the image to grayscale for better OCR performance
-    #     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    #     # Analyze the image to adjust brightness
-    #     mean_brightness = np.mean(image)  # Calculate the average pixel brightness
-
-    #     # Automatically adjust brightness based on the image's brightness
-    #     if mean_brightness < 100:  # Image is too dark
-    #         brightness_delta = 30
-    #         print("Image is too dark. Increasing brightness.")
-    #     elif mean_brightness > 180:  # Image is too bright
-    #         brightness_delta = -30
-    #         print("Image is too bright. Decreasing brightness.")
-    #     else:
-    #         brightness_delta = 0
-    #         print("Image brightness is optimal.")
-
-    #     # Adjust brightness using a linear transformation
-    #     image = cv2.convertScaleAbs(image, alpha=1, beta=brightness_delta)
-
-    #     # # Increase contrast by applying histogram equalization
-    #     # gray = cv2.equalizeHist(gray)  # Perform histogram equalization to improve contrast
-
-    #     # # Apply Gaussian blur to reduce noise (helps in OCR)
-    #     # image = cv2.GaussianBlur(image, (5, 5), 0)
-
-    #     # Use adaptive thresholding to create a binary image (improves clarity of text)
-    #     # Adaptive thresholding helps when the lighting varies across the image
-    #     image = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
-    #                                 cv2.THRESH_BINARY, 11, 2)
-
-    #     # # Sharpen the image (to make text crisper)
-    #     # kernel = np.array([[0, -1, 0], [-1, 5,-1], [0, -1, 0]])
-    #     # image = cv2.filter2D(image, -1, kernel)
-
-    #     # Save enhanced images
-    #     if '\\' in image_path:
-    #         image_name = image_path.split('\\')[-1]
-    #     else:
-    #         image_name = image_path.split('/')[-1]
-    #     cv2.imwrite(ENHANCED_IMG_PATH+image_name, image)
-    #     return ENHANCED_IMG_PATH+image_name
 
     def get_curwd(self):
         curdir = os.getcwd()
@@ -118,8 +70,8 @@ class utils:
         text = text.replace('\n', ' ')
         return text
 
-    def crop_image_region(self, image_path, region_name=None, x1=0, y1=0, x2=0, y2=0):
-        if x1 == 0 and x2 == 0 and y1 == 0 and y2 == 0 and region_name is None:
+    def crop_image_region(self, image_path, region_name=None):
+        if region_name is None:
             return image_path
         image_file = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
         if region_name:
