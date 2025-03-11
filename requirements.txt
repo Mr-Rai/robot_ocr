@@ -5,3 +5,6 @@ opencv-python>=4.5.0  # Required for image processing
 shapely>=1.8.0  # Required for geometry operations
 pyyaml>=5.0  # Required for configuration files
 scipy>=1.7.0  # Required for scientific computing
+robotframework==7.11  # Required for running robot tests
+pandas==2.2.3  # Required for data manipulation
+pytesseract==0.3.13  # Required for comparing OCR outputs

@@ -31,16 +31,22 @@ class FineTuner:
         Fine-tune the model.
         :param config_file: Path to the configuration file for training.
         """
-        try:
-            paddleocr.train(
-                config=config_file,
-                pretrained_model=self.pretrained_model_dir,
-                save_model_dir=self.output_dir
-            )
-        except Exception as e:
-            # BuiltIn().log(message=f"Error during fine-tuning: {e}", level='WARN', console=True)
-            BuiltIn().log(message="\nTraining Model...", level='INFO', console=True)
-            for i in range(5):
-                BuiltIn().log(message=f"Epoch {i+1} completed", level='INFO', console=True)
-                time.sleep(5)
-        BuiltIn().log(message=f"Fine-tuned model saved to: {self.output_dir}", level='INFO', console=True)
+        paddleocr.train(
+            config=config_file,
+            pretrained_model=self.pretrained_model_dir,
+            save_model_dir=self.output_dir
+        )
+
+        # try:
+        #     paddleocr.train(
+        #         config=config_file,
+        #         pretrained_model=self.pretrained_model_dir,
+        #         save_model_dir=self.output_dir
+        #     )
+        # except Exception as e:
+        #     # BuiltIn().log(message=f"Error during fine-tuning: {e}", level='WARN', console=True)
+        #     BuiltIn().log(message="\nTraining Model...", level='INFO', console=True)
+        #     for i in range(5):
+        #         BuiltIn().log(message=f"Epoch {i+1} completed", level='INFO', console=True)
+        #         time.sleep(5)
+        # BuiltIn().log(message=f"Fine-tuned model saved to: {self.output_dir}", level='INFO', console=True)

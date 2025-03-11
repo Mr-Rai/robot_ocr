@@ -51,6 +51,11 @@ class OCRProject:
         if config_file is None:
             config_file = self.default_config_file
 
+        # Check file size in data/images directory, if less than 5k raise an error
+        file_list = [f for root, dirs, files in os.walk(self.default_data_dir) for f in files]
+        BuiltIn().log(level='WARN', message=f'\nData folder should contain at least 5000 images', console=True) if len(file_list) < 5000 else None
+        assert len(file_list) >= 5000, 'Data folder should contain at least 5000 images'
+
         self.fine_tuner = FineTuner(pretrained_model_dir, output_dir)
         self.fine_tuner.prepare_dataset(data_dir, label_file)
         self.fine_tuner.fine_tune(config_file)
