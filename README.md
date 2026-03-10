@@ -1,4 +1,5 @@
 # Enhanced OCR Application with Robot Framework wrapper
+### 📄 M.Tech Thesis Project — BITS Pilani (2025) | Data Science & Engineering
 
 ### 1. What is it about
 The project is aimed at the areas of test automation, image processing and machine
